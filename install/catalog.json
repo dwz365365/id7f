@@ -26,12 +26,12 @@
       "kind": "app",
       "title": "Waze on cluster — full-screen controls",
       "description": "Experimental iDrive 7 controls with the Cluster FULL option. Stationary testing only.",
-      "version": "0.6.7",
+      "version": "0.6.8",
       "artifact": {
-        "name": "robertn_waze_cluster@0.6.7.tgz",
-        "size": 94586,
-        "sha256": "26628044b309b4657e228badfcc67e7e0c59bdd8ca6092c1eca358bbc13bd97a",
-        "url": "https://github.com/dwz365365/id7f/releases/download/robertn_waze_cluster%400.6.7/robertn_waze_cluster%400.6.7.tgz"
+        "name": "robertn_waze_cluster@0.6.8.tgz",
+        "size": 99574,
+        "sha256": "54ce35a63b1d0250cc2db5711d2912b82cd26690c17ccc6dfd3b518e1dc739b8",
+        "url": "https://github.com/dwz365365/id7f/releases/download/robertn_waze_cluster%400.6.8/robertn_waze_cluster%400.6.8.tgz"
       },
       "build": "unit",
       "requires": {

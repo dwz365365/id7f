@@ -20,15 +20,15 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          for tag in 'waze-on-cluster@0.9.14' 'robertn_waze_cluster@0.6.7'; do
+          for tag in 'waze-on-cluster@0.9.14' 'robertn_waze_cluster@0.6.8'; do
             gh release view "$tag" >/dev/null 2>&1 || \
               gh release create "$tag" --title "$tag" --notes 'Experimental stationary-test build. Not tested on a real vehicle.'
           done
 
           gh release upload 'waze-on-cluster@0.9.14' \
             'install/waze-on-cluster@0.9.14.tgz' --clobber
-          gh release upload 'robertn_waze_cluster@0.6.7' \
-            'install/robertn_waze_cluster@0.6.7.tgz' --clobber
+          gh release upload 'robertn_waze_cluster@0.6.8' \
+            'install/robertn_waze_cluster@0.6.8.tgz' --clobber
 
           gh release view catalog >/dev/null 2>&1 || \
             gh release create catalog --title 'Catalog' --notes 'MGU Store catalog.'

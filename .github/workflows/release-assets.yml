@@ -18,12 +18,12 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate independent app package
         run: |
-          test "$(sha256sum install/dwz_fullscreen_cluster@0.1.0.tgz | cut -d' ' -f1)" = \
-            '920c0d34be0d745e819e7c241f23b8ae33f26585ce31aa78ea5ef2d3d36c4d7e'
+          test "$(sha256sum install/dwz_fullscreen_cluster@0.1.1.tgz | cut -d' ' -f1)" = \
+            'cd9a50253f1020fea4a25004c2a9b66a2eaf0b5912c1fd76355ed7395c0f4518'
           mkdir -p /tmp/dwz-fullscreen-check
-          tar -xzf install/dwz_fullscreen_cluster@0.1.0.tgz -C /tmp/dwz-fullscreen-check
+          tar -xzf install/dwz_fullscreen_cluster@0.1.1.tgz -C /tmp/dwz-fullscreen-check
           test "$(jq -r .id /tmp/dwz-fullscreen-check/mgu-app.json)" = 'dwz_fullscreen_cluster'
-          test "$(jq -r .version /tmp/dwz-fullscreen-check/mgu-app.json)" = '0.1.0'
+          test "$(jq -r .version /tmp/dwz-fullscreen-check/mgu-app.json)" = '0.1.1'
           test "$(jq -r .name /tmp/dwz-fullscreen-check/package/package.json)" = 'dwz_fullscreen_cluster'
           test "$(jq -r .application.uuid /tmp/dwz-fullscreen-check/package/rhmiData/application.json)" != \
             '4cf1bcda-5c71-473a-b104-9819ff081a93'
@@ -32,15 +32,13 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          for tag in 'waze-on-cluster@0.9.14' 'dwz_fullscreen_cluster@0.1.0'; do
+          for tag in 'dwz_fullscreen_cluster@0.1.1'; do
             gh release view "$tag" >/dev/null 2>&1 || \
               gh release create "$tag" --title "$tag" --notes 'Experimental stationary-test build. Not tested on a real vehicle.'
           done
 
-          gh release upload 'waze-on-cluster@0.9.14' \
-            'install/waze-on-cluster@0.9.14.tgz' --clobber
-          gh release upload 'dwz_fullscreen_cluster@0.1.0' \
-            'install/dwz_fullscreen_cluster@0.1.0.tgz' --clobber
+          gh release upload 'dwz_fullscreen_cluster@0.1.1' \
+            'install/dwz_fullscreen_cluster@0.1.1.tgz' --clobber
 
           gh release view catalog >/dev/null 2>&1 || \
             gh release create catalog --title 'Catalog' --notes 'MGU Store catalog.'

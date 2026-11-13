@@ -1,24 +1,35 @@
-name: Attach release packages
+name: Publish MGU catalog
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: [main]
+    paths:
+      - 'install/**'
+      - '.github/workflows/release-assets.yml'
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  upload:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Upload MGU packages
+      - name: Publish component releases and catalog
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ github.event.release.tag_name }}
         run: |
-          gh release upload "$TAG" \
-            install/id7f-usb.zip \
-            'install/waze-on-cluster@0.9.14.tgz' \
-            'install/robertn_waze_cluster@0.6.7.tgz' \
-            --clobber
+          for tag in 'waze-on-cluster@0.9.14' 'robertn_waze_cluster@0.6.7'; do
+            gh release view "$tag" >/dev/null 2>&1 || \
+              gh release create "$tag" --title "$tag" --notes 'Experimental stationary-test build. Not tested on a real vehicle.'
+          done
+
+          gh release upload 'waze-on-cluster@0.9.14' \
+            'install/waze-on-cluster@0.9.14.tgz' --clobber
+          gh release upload 'robertn_waze_cluster@0.6.7' \
+            'install/robertn_waze_cluster@0.6.7.tgz' --clobber
+
+          gh release view catalog >/dev/null 2>&1 || \
+            gh release create catalog --title 'Catalog' --notes 'MGU Store catalog.'
+          gh release upload catalog install/catalog.json --clobber

@@ -1,0 +1,44 @@
+{
+  "schema": 2,
+  "commit": "47b182a285277b921076eff1553798c4e1d7132c",
+  "components": [
+    {
+      "id": "waze-on-cluster",
+      "kind": "tool",
+      "title": "Waze on cluster — full-screen experiment",
+      "description": "Experimental full-screen CarPlay map renderer for BMW iDrive 7. Stationary testing only.",
+      "version": "0.9.14",
+      "artifact": {
+        "name": "waze-on-cluster@0.9.14.tgz",
+        "size": 2365725,
+        "sha256": "a346916752dad7f77bdb72c660c247b92d3ebb4b6883121dddf28e9c5fb569d6",
+        "url": "https://github.com/dwz365365/id7f/releases/download/waze-on-cluster%400.9.14/waze-on-cluster%400.9.14.tgz"
+      },
+      "requires": {
+        "mgu-deploy": "0.7.17",
+        "cluster-render": "0.5.3"
+      },
+      "mguHmi": ["ID7"],
+      "uninstallable": true
+    },
+    {
+      "id": "robertn_waze_cluster",
+      "kind": "app",
+      "title": "Waze on cluster — full-screen controls",
+      "description": "Experimental iDrive 7 controls with the Cluster FULL option. Stationary testing only.",
+      "version": "0.6.7",
+      "artifact": {
+        "name": "robertn_waze_cluster@0.6.7.tgz",
+        "size": 94586,
+        "sha256": "26628044b309b4657e228badfcc67e7e0c59bdd8ca6092c1eca358bbc13bd97a",
+        "url": "https://github.com/dwz365365/id7f/releases/download/robertn_waze_cluster%400.6.7/robertn_waze_cluster%400.6.7.tgz"
+      },
+      "build": "unit",
+      "requires": {
+        "waze-on-cluster": "0.9.14"
+      },
+      "mguHmi": ["ID7"],
+      "uninstallable": true
+    }
+  ]
+}

@@ -29,9 +29,10 @@ In MGU Store, open **Settings → Add source**, enter:
 dwz365365/id7f
 ```
 
-Choose **Releases**, install/update `waze-on-cluster` first, then
-`robertn_waze_cluster`. Restart the head unit if requested. Test only while
-parked in P.
+Choose **Releases**, install/update `waze-on-cluster` first, then install the
+independent `dwz_fullscreen_cluster` app. The original `robertn_waze_cluster`
+application remains installed and is not replaced. Restart the head unit if
+requested. Test only while parked in P.
 
 To try it: start CarPlay navigation, open **Waze on cluster → Show on**, then
 choose the final option, `Cluster — FULL (experimental)`.
@@ -40,9 +41,8 @@ choose the final option, `Cluster — FULL (experimental)`.
 
 1. Choose the first `Cluster` option to return to the native central map.
 2. If the menu cannot be used, disconnect CarPlay and perform a normal head-unit restart.
-3. To return to the upstream build, remove these two experimental components
-   in MGU Store and reinstall the official versions from
-   `robertnisipeanu/idrive-apps`.
+3. To return to the upstream build, remove `dwz_fullscreen_cluster` and restore
+   `waze-on-cluster` from `robertnisipeanu/idrive-apps` if it was updated.
 
 ## Contents
 

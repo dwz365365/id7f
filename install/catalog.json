@@ -22,16 +22,16 @@
       "uninstallable": true
     },
     {
-      "id": "robertn_waze_cluster",
+      "id": "dwz_fullscreen_cluster",
       "kind": "app",
-      "title": "Waze on cluster — full-screen controls",
-      "description": "Experimental iDrive 7 controls with the Cluster FULL option. Stationary testing only.",
-      "version": "0.6.8",
+      "title": "ID7 Fullscreen Map",
+      "description": "Independent experimental iDrive 7 controls with the Cluster FULL option. Keeps the original Waze control application installed. Stationary testing only.",
+      "version": "0.1.0",
       "artifact": {
-        "name": "robertn_waze_cluster@0.6.8.tgz",
-        "size": 99574,
-        "sha256": "54ce35a63b1d0250cc2db5711d2912b82cd26690c17ccc6dfd3b518e1dc739b8",
-        "url": "https://github.com/dwz365365/id7f/releases/download/robertn_waze_cluster%400.6.8/robertn_waze_cluster%400.6.8.tgz"
+        "name": "dwz_fullscreen_cluster@0.1.0.tgz",
+        "size": 100182,
+        "sha256": "920c0d34be0d745e819e7c241f23b8ae33f26585ce31aa78ea5ef2d3d36c4d7e",
+        "url": "https://github.com/dwz365365/id7f/releases/download/dwz_fullscreen_cluster%400.1.0/dwz_fullscreen_cluster%400.1.0.tgz"
       },
       "build": "unit",
       "requires": {

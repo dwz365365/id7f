@@ -106,11 +106,10 @@ const SAFE = '504x368+286+72';
  * whole), HUD_SIZE_STEPS of them. Standard (0) counts as HUD_STANDARD_PCT, about what the fitted box is. */
 const HUD_MIN_PCT = 30, HUD_MAX_PCT = 85, HUD_STEP_PCT = 5, HUD_STANDARD_PCT = 57;
 const HUD_SIZE_STEPS = (HUD_MAX_PCT - HUD_MIN_PCT) / HUD_STEP_PCT;
-/* Where the map can show, the choices in their order on the page.  The
- * full-cluster choice deliberately is not persisted: after a head-unit
- * restart the renderer starts on the native map target again.  This keeps
- * the experimental whole-panel overlay fail-safe on untested clusters. */
-const SHOWN_ON = ['cluster', 'hud', 'both', 'off', 'cluster-full'];
+/* Where the map can show, in their order on the page.  The whole-panel
+ * target is deliberately excluded: it sits above BMW's original instrument
+ * information. */
+const SHOWN_ON = ['cluster', 'hud', 'both', 'off'];
 /* The HUD map moved from its centre, HUD_MOVE_PX a press, within +-HUD_MOVE_MAX; the render holds it inside the
  * HUD and reports the offset as far as it went. An asked size or place shows until the render's status has it,
  * HUD_ASKED_MS has passed, the render reconnects or patchd fails to save the size; then the render's own. */
@@ -265,7 +264,7 @@ function shownOnOf(rs) {
         return null;
     }
     const cluster = rs.cluster === 1, hud = rs.hud === 1;
-    return cluster && hud ? 'both' : cluster ? (rs.target === 'panel' ? 'cluster-full' : 'cluster') : hud ? 'hud' : 'off';
+    return cluster && hud ? 'both' : cluster ? 'cluster' : hud ? 'hud' : 'off';
 }
 
 /* After a zoom or turn-card value that waits for the next head-unit start. */
@@ -290,6 +289,7 @@ class WazeClusterControl extends EventEmitter {
         this._forget();
         this.captureState = { state: 'unavailable' };
         this.renderStatus = null;   /* the render tool's last status while connected */
+        this._safeMapRequested = false;
 
         this.render = new LineSocket({
             path: o.renderPath || RENDER_PATH,
@@ -308,6 +308,7 @@ class WazeClusterControl extends EventEmitter {
         const reset = () => {
             this.renderStatus = null;
             this._askedShownOn = null;
+            this._safeMapRequested = false;
             this._clearAskedHud();
             this.emit('change');
         };
@@ -390,7 +391,7 @@ class WazeClusterControl extends EventEmitter {
             return null;
         }
         const on = this.shownOn();
-        return on === 'both' || on === display || (display === 'cluster' && on === 'cluster-full');
+        return on === 'both' || on === display;
     }
 
     /* A choice goes to the render and is saved by patchd: both connected. */
@@ -398,7 +399,7 @@ class WazeClusterControl extends EventEmitter {
         return this.render.connected() && this.connectedPatch() && this.clusterOn() !== null && this.hudOn() !== null;
     }
 
-    /* Shows the map on the cluster, the full cluster panel, the HUD, both or neither ('off': BMW's
+    /* Shows the map on the cluster, the HUD, both or neither ('off': BMW's
      * own content on both): the render at once, patchd saves it. A display
      * turned on goes first, so a switch from one display to the other never
      * passes through neither. */
@@ -406,14 +407,12 @@ class WazeClusterControl extends EventEmitter {
         if (!SHOWN_ON.includes(choice) || !this.canChooseShownOn() || choice === this.shownOn()) {
             return;
         }
-        const want = { cluster: choice === 'cluster' || choice === 'cluster-full' || choice === 'both',
+        const want = { cluster: choice === 'cluster' || choice === 'both',
             hud: choice === 'hud' || choice === 'both' };
         const changes = ['cluster', 'hud'].filter((d) => this._shows(d) !== want[d]).sort((a, b) => want[b] - want[a]);
         this._askedShownOn = choice;
         const target = this.renderStatus && this.renderStatus.target;
-        if (choice === 'cluster-full' && target !== 'panel') {
-            this.render.send({ cmd: 'start', target: 'panel' });
-        } else if ((choice === 'cluster' || choice === 'both') && target === 'panel') {
+        if ((choice === 'cluster' || choice === 'both') && target === 'panel') {
             this.render.send({ cmd: 'start', target: 'map' });
         }
         changes.forEach((d) => {
@@ -1041,6 +1040,12 @@ class WazeClusterControl extends EventEmitter {
 
     _onRender(msg) {
         if (msg.ev === 'status') {
+            if (msg.target === 'panel' && !this._safeMapRequested) {
+                this._safeMapRequested = true;
+                this.render.send({ cmd: 'start', target: 'map' });
+            } else if (msg.target !== 'panel') {
+                this._safeMapRequested = false;
+            }
             this.renderStatus = msg;
             if (this._askedShownOn && this._askedShownOn === shownOnOf(msg)) {
                 this._askedShownOn = null;

@@ -5,14 +5,14 @@
     {
       "id": "dwz_fullscreen_cluster",
       "kind": "app",
-      "title": "ID7 Fullscreen Map",
-      "description": "Independent experimental iDrive 7 controls with the Cluster FULL option. Keeps the original Waze control application installed. Stationary testing only.",
-      "version": "0.1.2",
+      "title": "ID7 Safe Map",
+      "description": "Independent iDrive 7 controls restricted to the native central map layer, preserving BMW instrument information. Stationary testing only.",
+      "version": "0.1.3",
       "artifact": {
-        "name": "dwz_fullscreen_cluster@0.1.2.tgz",
-        "size": 95193,
-        "sha256": "0d2174de19bdf1eb98e5e96bb37402a3f245218408bb2d6bd5bfa8327c206bb0",
-        "url": "https://github.com/dwz365365/id7f/releases/download/dwz_fullscreen_cluster%400.1.2/dwz_fullscreen_cluster%400.1.2.tgz"
+        "name": "dwz_fullscreen_cluster@0.1.3.tgz",
+        "size": 95220,
+        "sha256": "46be4812ba5f6b54caf73c1419482a8fef41bf1811390e974f597cfad66e2dbc",
+        "url": "https://github.com/dwz365365/id7f/releases/download/dwz_fullscreen_cluster%400.1.3/dwz_fullscreen_cluster%400.1.3.tgz"
       },
       "build": "unit",
       "mguHmi": ["ID7"],

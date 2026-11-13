@@ -557,8 +557,7 @@ class WazeClusterApp extends OnlineApp {
         /* where the map shows: the choice, '—' in its place until the render has said */
         const shownOn = SHOWN_ON.indexOf(c.shownOn());
         this._writeCell(SHOW_ON_NAME, 'HeaderText', t('Show on'), 'Text');
-        [t('Cluster'), t('HUD (experimental)'), t('Cluster and HUD (experimental)'), t('Off'),
-            `${t('Cluster')} — FULL (experimental)`].forEach((text, row) =>
+        [t('Cluster'), t('HUD (experimental)'), t('Cluster and HUD (experimental)'), t('Off')].forEach((text, row) =>
             this._writeCell(SHOW_ON_NAME, 'ItemText', row === 0 && shownOn < 0 ? '—' : text, 'Text', row));
         this._writeCell(SHOW_ON_NAME, 'SelectedItem', Math.max(shownOn, 0), 'UInt');
         this._setEnabled(SHOW_ON_NAME, c.canChooseShownOn());

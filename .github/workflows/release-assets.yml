@@ -1,0 +1,24 @@
+name: Attach release packages
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Upload MGU packages
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          gh release upload "$TAG" \
+            install/id7f-usb.zip \
+            'install/waze-on-cluster@0.9.14.tgz' \
+            'install/robertn_waze_cluster@0.6.7.tgz' \
+            --clobber
